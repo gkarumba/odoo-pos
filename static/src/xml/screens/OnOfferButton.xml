@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+   <t t-name="OnOfferButton'" owl="1">
+      <div class="control-button o_sale_orders_button">
+         <i class="fa fa-list" />View Offers
+      </div>
+   </t>
+</templates>

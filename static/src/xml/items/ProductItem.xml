@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" inherit_id="point_of_sale_template" xml:space="preserve">
+
+    <t t-inherit="point_of_sale.ProductItem" t-name="ProductItem" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('product-img')]" position="after">
+
+            <t t-if="props.product.on_offer">
+                <div class="product-name">
+                    <h5 style="color:green;">Offer: <t t-esc="props.product.offer_id[1]" /></h5>
+                </div>
+            </t>
+
+        </xpath>
+    </t>
+</templates>

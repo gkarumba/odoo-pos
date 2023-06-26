@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" inherit_id="point_of_sale_template" xml:space="preserve">
+
+    <t t-inherit="point_of_sale.ProductInfoPopup" t-name="ProductInfoPopup" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('section-financials-body')]" position="after">
+            <t t-if="productInfo.all_prices.on_offer">
+                <div class="section-financials-body">
+                    <table>
+                        <t t-foreach="productInfo.pricelists" t-as="pricelist" t-key="pricelist.name">
+                            <tr>
+                                <td style="color:green;margin-top:5px;padding-top:5px;">Offer:</td>
+                                <td style="color:green;margin-top:5px;padding-top:5px;" t-esc="props.product.offer_id[1]" />
+                            </tr>
+                            <tr>
+                                <td>Actual Price:</td>
+                                <td t-esc="env.pos.format_currency(pricelist.price)" />
+                            </tr>
+                            <tr>
+                                <td>Amount Saved:</td>
+                                <td>
+                                    <t t-esc="env.pos.format_currency(productInfo.all_prices.saved_amount)" />
+                                </td>
+                            </tr>
+                        </t>
+                    </table>
+                </div>
+            </t>
+        </xpath>
+    </t>
+</templates>

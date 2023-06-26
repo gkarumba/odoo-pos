@@ -20,6 +20,7 @@ class CheckOfferExpiry(models.Model):
                     if line.product_id:
                         line.product_id.list_price = line.old_price
                         line.product_id.on_offer = False
+                        line.product_id.product_variant_id.on_offer = False
             else:
                 pass
                 

@@ -1,0 +1,12 @@
+.section-financials-body {
+    display: flex;
+    justify-content: space-between;
+}
+
+.section-financials-body table {
+    width: 45%;
+}
+
+.section-financials-body table td {
+    width: 50%;
+}

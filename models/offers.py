@@ -13,20 +13,6 @@ class ProductOffers(models.Model):
     _description = "Products Offers"
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = "sequence"
-    
-    # @api.model
-    # def create(self, vals):
-    #     vals.update({
-    #         'name': self.env['ir.sequence'].next_by_code('project.timesheet')
-    #     })
-    #     result = super(ProductOffers, self).create(vals)
-    #     for record in result:
-    #         followers= []
-    #         manager_partner_id = self.env['res.partner'].search([('email','=', record.manager_id.email)],limit=1)
-    #         if manager_partner_id.id not in record.message_follower_ids.ids:
-    #             followers.append(manager_partner_id.id)
-    #         record.message_subscribe(followers)
-    #     return result
 
     active = fields.Boolean(default=True, track_visibility='onchange')
     sequence = fields.Integer('Sequence', required=False)
@@ -58,6 +44,9 @@ class ProductOffers(models.Model):
                         line.product_id.list_price = record.price
                         line.product_id.offer_price = line.offer_price
                         line.product_id.on_offer = True
+                        line.product_id.product_variant_id.on_offer = True
+                        line.product_id.product_variant_id.offer_id = self.id
+                        line.product_id.offer_id = self.id
                         
     def set_closed(self):
         for record in self:
@@ -66,7 +55,7 @@ class ProductOffers(models.Model):
                 })
             for line in record.offer_line_ids:
                 if line.product_id:
-                    line.product_id.list_price = line.product_id.actual_price
+                    line.product_id.list_price = line.old_price
                     line.product_id.on_offer = False
                     # line.product_id.actual_price = line.old_price
                     
@@ -75,6 +64,17 @@ class ProductOffers(models.Model):
             if record.state == 'close':
                 raise ValidationError(_('You can not edit an Offer, that has been closed'))
             else:
+                for line in record.offer_line_ids:
+                    if line.product_id and not line.product_id.on_offer:
+                        line.old_price = line.product_id.list_price
+                        line.product_id.actual_price = line.old_price
+                        line.product_id.list_price = record.price
+                        line.product_id.offer_price = line.offer_price
+                        line.product_id.on_offer = True
+                        line.product_id.product_variant_id.on_offer = True
+                        line.product_id.product_variant_id.offer_id = self.id
+                        line.product_id.offer_id = self.id
+                        
                 return super(ProductOffers, self).write(vals)
             
     def unlink(self):
@@ -127,11 +127,3 @@ class OffersLine(models.Model):
     #         if record.old_price > record.offer_price:
     #             raise ValidationError("The offer price cannot be greater than the actual selling price")
             
-class ProductInherit(models.Model):
-    '''Defines an inherit of the product model.'''
-    
-    _inherit = ['product.template']
-    
-    on_offer = fields.Boolean('On Offer', default=False, readonly=True, track_visibility='onchange')
-    offer_price = fields.Float('Offer Price', required=True, readonly=True, track_visibility='onchange')
-    actual_price = fields.Float('Sale Price', required=True, readonly=True, track_visibility='onchange')
