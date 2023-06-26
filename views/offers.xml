@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="product_offers_list_action" model="ir.actions.act_window">
+            <field name="name">Product Offers</field>
+            <field name="res_model">product.offer</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to Create a New Offer.
+                </p>
+            </field>
+        </record>
+
+        <record id="product_offers_tree_view" model="ir.ui.view">
+            <field name="name">Product Offers Tree</field>
+            <field name="model">product.offer</field>
+            <field name="arch" type="xml">
+                <tree string="Product Offers" delete="1" decoration-warning="active==False">
+                    <field name="name" />
+                    <field name="date_start" />
+                    <field name="date_stop" />
+                    <field name="price" />
+                    <field name="state" />
+                    <field name="active" invisible="1" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="product_offers_search_view" model="ir.ui.view">
+            <field name="name">Product Offers Search</field>
+            <field name="model">product.offer</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name" />
+                    <field name="price" />
+                </search>
+            </field>
+        </record>
+
+        <record id="product_offers_form_view" model="ir.ui.view">
+            <field name="name">Product Offers Form</field>
+            <field name="model">product.offer</field>
+            <field name="arch" type="xml">
+                <form string="Product Offers" duplicate="0">
+                    <header>
+                        <button name="set_active" string="ACTIVATE" states="draft" type="object" class="oe_highlight" />
+                        <button name="set_closed" string="CLOSE" states="active" type="object"
+                            confirm="Once closed, the details set under this offer cannot be changed, confirm?"
+                            class="oe_highlight" />
+                        <field name="state" widget="statusbar" options="{'clickable': False}" />
+                    </header>
+                    <sheet style="width: 80%;">
+                        <group>
+                            <field name="name" attrs="{'readonly': [('state','in',('close'))]}"/>
+                            <field name="date_start" attrs="{'readonly': [('state','in',('close'))]}"/>
+                            <field name="date_stop" attrs="{'readonly': [('state','in',('close'))]}"/>
+                            <field name="price" attrs="{'readonly': [('state','in',('close'))]}"/>
+                        </group>
+                        <group>
+                        </group>
+                        <notebook>
+                            <page name="offer_line_ids" string="Offer Line">
+                                <field name="offer_line_ids" nolabel="1"
+                                    context="{'form_view_ref' : 'odoo-pos.offer_line_ids_view_form'}">
+                                    <tree string="" class="trojan" create="1" delete="1">
+                                        <field name="state" invisible="1" />
+                                        <field name="product_id" attrs="{'readonly': [('state','in',('close'))]}"/>
+                                        <field name="old_price" />
+                                        <field name="offer_price" />                 
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter" style="width: 20%;">
+                        <field name="message_follower_ids" widget="mail_followers" />
+                        <field name="activity_ids" widget="mail_activity" />
+                        <field name="message_ids" widget="mail_thread" />
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="offer_line_ids_view_form" model="ir.ui.view">
+        <field name="name">product.offer.line.view.form</field>
+        <field name="model">product.offer.line</field>
+        <field name="priority" eval="1" />
+        <field name="arch" type="xml">
+            <form string="Offer Lines" class="o_expense_form">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="state" invisible="1" />
+                            <field name="product_id" options="{'no_create_edit': True,'no_create': True,'no_open':True}" attrs="{'readonly': [('state','in',('close'))]}"/>
+                            <field name="old_price" />
+                            <field name="offer_price" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    </data>
+</odoo>

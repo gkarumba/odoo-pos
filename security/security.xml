@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record model="ir.module.category" id="module_product_offers">
+        <field name="name">Product Offers</field>
+        <field name="description">This allow users create product offers</field>
+        <field name="sequence">48</field>
+    </record>
+
+    <record id="group_access_offer_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="module_product_offers"/>
+    </record>
+
+</odoo>
