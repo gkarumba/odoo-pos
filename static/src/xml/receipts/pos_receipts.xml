@@ -5,7 +5,7 @@
     <t t-inherit="point_of_sale.OrderReceipt" t-name="OrderReceipt" t-inherit-mode="extension" owl="1">
         <xpath expr="//div[hasclass('pos-receipt')]" position="after">
             <div class="pos-receipt">
-                <!-- <t t-if="receipt.company.logo">
+                <t t-if="receipt.company.logo">
                     <img class="pos-receipt-logo" t-att-src="receipt.company.logo" alt="Logo" />
                     <br />
                 </t>
@@ -14,9 +14,9 @@
                         <t t-esc="receipt.company.name" />
                     </h2>
                     <br />
-                </t> -->
+                </t>
                 <div class="pos-receipt-contact">
-                    <!-- <t t-if="receipt.company.contact_address">
+                    <t t-if="receipt.company.contact_address">
                         <div>
                             <t t-esc="receipt.company.contact_address" />
                         </div>
@@ -41,7 +41,7 @@
                         <div>
                             <t t-esc="receipt.company.website" />
                         </div>
-                    </t> -->
+                    </t>
                     <t t-if="receipt.header_html">
                         <t t-raw="receipt.header_html" />
                     </t>

@@ -5,20 +5,21 @@
         <field name="model">product.template</field>
         <field name="inherit_id" ref="product.product_template_form_view" />
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='list_price']" position="after">
-                <div name="pricing">
-                    <field name="offer_price" widget='monetary' options="{'currency_field': 'currency_id', 'field_digits': True}" class="oe_inline" attrs="{'invisible':[('on_offer', '=',False)]}" />
+            <xpath expr="//page[@name='general_information']//field[@name='uom_po_id']" position="after">
+                <!-- <div name="pricing">
+                    <field name="offer_price" string="Product Offer Price" widget='monetary' options="{'currency_field': 'currency_id', 'field_digits': True}"  attrs="{'invisible':[('on_offer', '=',False)]}" />
+                </div> -->
+                <div name="">
+                <label for="on_offer"/>
+                    <field name="on_offer" string="Product Offer" />
                 </div>
-                <div name="pricing">
-                    <field name="on_offer" class="oe_inline" />
-                </div>
-                <div name="pricing" class="mt-1">
-                    <field name="actual_price" widget='monetary' options="{'currency_field': 'currency_id', 'field_digits': True}" class="oe_inline" attrs="{'invisible':[('on_offer', '=',False)]}" />
-                </div>
+                <!-- <div name="pricing" class="mt-1">
+                    <field  name="actual_price" widget='monetary' options="{'currency_field': 'currency_id', 'field_digits': True}"  attrs="{'invisible':[('on_offer', '=',False)]}" />
+                </div> -->
             </xpath>
-            <xpath expr="//field[@name='list_price']" position="attributes">
+            <!-- <xpath expr="//field[@name='list_price']" position="attributes">
                 <attribute name="attrs">{'invisible': [('on_offer', '=', True)]}</attribute>
-            </xpath>
+            </xpath> -->
         </field>
     </record>
 </odoo>

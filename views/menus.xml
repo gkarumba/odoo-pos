@@ -2,9 +2,9 @@
 <odoo>
     <data>
 
-        <menuitem name="Offers" id="menu_product_offer" groups="odoo-pos.group_access_offer_manager" sequence="23" action="odoo-pos.product_offers_list_action" parent="purchase.menu_purchase_products" />
+        <menuitem name="Offers" id="menu_product_offer_purchase" groups="odoo-pos.group_access_offer_manager" sequence="23" action="odoo-pos.product_offers_list_action" parent="purchase.menu_purchase_products" />
 
-        <menuitem name="Offers" id="menu_product_offer" groups="odoo-pos.group_access_offer_manager" sequence="23" action="odoo-pos.product_offers_list_action" parent="point_of_sale.pos_config_menu_catalog" />
+        <menuitem name="Offers" id="menu_product_offer_pos" groups="odoo-pos.group_access_offer_manager" sequence="23" action="odoo-pos.product_offers_list_action" parent="point_of_sale.pos_config_menu_catalog" />
 
     </data>
 </odoo>
