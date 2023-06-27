@@ -20,4 +20,4 @@ A module that creates offers for products to be sold in the POS for Odoo V15
     original product amount and the amount saved under the offer
 
 ### 7- Pending including the Offer details in the receipt 
-    Bug on reading the data rendered to the OrderReceipt, js functionality done
+    Bug on reading the data rendered to the OrderReceipt, js functionality done, template to render partially done due to the fields not being rendered 

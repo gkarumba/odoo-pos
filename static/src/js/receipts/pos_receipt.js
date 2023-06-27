@@ -10,26 +10,37 @@ odoo.define('odoo-pos.OrderReceipt', function(require) {
         constructor() {
             super(...arguments);
             this._receiptEnv = this.props.order.getOrderReceiptEnv();
-        }
-        willUpdateProps(nextProps) {
-            this._receiptEnv = nextProps.order.getOrderReceiptEnv();
-        }
-        get receipt() {
-            
-            var new_receipt = this.receiptEnv.receipt.orderlines.forEach(element => {
+            this._receiptEnv.receipt.orderlines.forEach(element => {
                 this._loadOfferDetails(element.product_name).then(result => {
                     var data = {
                         'on_offer': result[0]['on_offer'] || null, 
-                        'actual_price': result[0]['actual_price'], 
-                        'offer_price': result[0]['offer_price'],
-                        'offer_name': result[0]['offer_id'][1],
-                        'amount_saved': result[0]['actual_price'] - element.price_display_one
+                        'actual_price': result[0]['actual_price'] , 
+                        'offer_price': result[0]['offer_price'] || 0.0,
+                        'offer_name': result[0]['offer_id'][1] || null,
+                        'amount_saved': result[0]['actual_price'] - element.price_display_one || 0.0
                     }
                     element['offers'] = data
                 });     
             });
-            // console.log(this.receiptEnv.receipt)
-            return new_receipt;
+        }
+        willUpdateProps(nextProps) {
+            this._receiptEnv = nextProps.order.getOrderReceiptEnv();
+            this._receiptEnv.receipt.orderlines.forEach(element => {
+                this._loadOfferDetails(element.product_name).then(result => {
+                    var data = {
+                        'on_offer': result[0]['on_offer'] || null, 
+                        'actual_price': result[0]['actual_price'] , 
+                        'offer_price': result[0]['offer_price'] || 0.0,
+                        'offer_name': result[0]['offer_id'][1] || null,
+                        'amount_saved': result[0]['actual_price'] - element.price_display_one || 0.0
+                    }
+                    element['offers'] = data
+                });     
+            });
+        }
+        get receipt() {
+            console.log(this.receiptEnv.receipt)
+            return this.receiptEnv.receipt;
         }
         get orderlines() {
             return this.receiptEnv.orderlines;
